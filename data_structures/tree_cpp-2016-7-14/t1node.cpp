@@ -28,14 +28,32 @@ t1node* new_node(std::string data) {
 
 void gc() {
     int counter = 0;
+    while (!garbage_collector.empty()) {
+        if (VERBOSITY >= 2) {
+            std::cout << "delete(" << garbage_collector.front() << ")   "; // << std::endl << std::flush;
+        }
+        // delete garbage_collector.back();
+        //delete garbage_collector.pop_back();  //can it return a mover?
+        //auto
+        //t1node* e =
+        //void
+        //garbage_collector.pop_back();  //void value not ignored as it ought to be
+        t1node* e = garbage_collector.back();
+        garbage_collector.pop_back();
+        delete e;
+        counter++;
+    }
+    /*
     for (auto it = garbage_collector.begin();
              it < garbage_collector.end(); it++) {
         if (VERBOSITY >= 2) {
             std::cout << "delete: " << *it << std::endl << std::flush;
         }
-        // delete *it;
+        delete *it;
         counter++;
     }
+    */
+    std::cout << std::endl << std::flush;
     std::cout << counter << " garbages collected." << std::endl << std::flush;
 }
 
@@ -62,5 +80,6 @@ int main() {
 
     traverse_inorder(root);
     std::cout << std::endl << std::flush;
+    gc();
     gc();
 }
