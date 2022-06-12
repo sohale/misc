@@ -5,10 +5,19 @@ The idea is to allocate space in Stack and use it as a piece of memory for opera
 Result:
 Fails as this space will not be "contiguous".
 Also, why is end - begin negative?
+
+Output:
+
+call:5 (0)from -420204. call:4 (-12)from -420204. call:3 (-24)from -420204. call:2 (-36)from -420204. call:1 (-48)from -420204. -48
+esc:
+ret:2 0
+ret:3 0
+ret:4 0
+ret:5 0
+
 */
 
 #include <iostream>
-
 // #include <cstddef> // nullptr
 // nullptr <- NULL
 
@@ -19,6 +28,8 @@ void f(int n, volatile int* first_v) {
     if (first_v == NULL) {
         first_v = &v;
     }
+    cout << "(" << (int)(&v - first_v) << ")from " << (int)(first_v)<< ". ";
+
     if (n<=1) {
         // Now you have the first one
         volatile int* begin = first_v;
@@ -42,3 +53,4 @@ void f(int n, volatile int* first_v) {
 int main() {
     f(5,NULL);
 }
+
